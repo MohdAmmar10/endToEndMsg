@@ -39,37 +39,28 @@ if (localStorage.jwtToken) {
 
 function App() {
 
+
   
-  const [messages,setMessages] = useState([]);
-  
 
-  useEffect(() => {
-    axios.get('/messages/sync')
-    .then(resposnse => {
-      setMessages(resposnse.data)
-    })
-  },[])
+  // useEffect(() => {
+  //   const pusher = new Pusher('8a303e31b3106d3f9a47', {
+  //     cluster: 'ap2'
+  //   });
 
+  //   const channel = pusher.subscribe('messages');
+  //   channel.bind('inserted', (newMessage) => {
+  //     // alert(JSON.stringify(newMessage));
+  //     setMessages([...messages, newMessage])
+  //   });
 
-  useEffect(() => {
-    const pusher = new Pusher('8a303e31b3106d3f9a47', {
-      cluster: 'ap2'
-    });
+  //   return () => {
+  //     channel.unbind_all();
+  //     channel.unsubscribe();
+  //   };
 
-    const channel = pusher.subscribe('messages');
-    channel.bind('inserted', (newMessage) => {
-      // alert(JSON.stringify(newMessage));
-      setMessages([...messages, newMessage])
-    });
+  // }, [messages])
 
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
-
-  }, [messages])
-
-  console.log(messages)
+  // console.log(messages)
   return (
     <div className="app">
       <div className="app_body">
@@ -78,7 +69,7 @@ function App() {
           <Switch>
             <PrivateRoute path="/rooms/:roomId">
               <Sidebar />
-              <Chat messages={messages}/>
+              <Chat/>
             </PrivateRoute>
             <Route exact path="/register">
               <Register/>

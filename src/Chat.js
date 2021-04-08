@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import "./Chat.css";
 import { IconButton,Avatar } from '@material-ui/core';
 import { SearchOutlined, AttachFile, MoreVert, InsertEmoticon } from '@material-ui/icons';
@@ -8,32 +8,113 @@ import {useParams } from 'react-router-dom'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "./actions/authActions";
+import Pusher from 'pusher-js'
 
-
-function Chat({messages}) {
+function Chat(props) {
 
     const { roomId } = useParams();
     const [input, setInput] = useState("");
+    const [user2, setUser2] = useState("Loading...");
+    const [messages,setMessages] = useState([]);
+    const [isGroup,setIsGroup] = useState(false);
+  
 
+//   useEffect( () => {
+//     console.log(roomId)
+//         if(roomId)
+//         {
+             
+//         }
+//   },[roomId])    
+
+
+    useEffect(() =>{
+        console.log(roomId.substr(0,5))
+        if(roomId.substr(0,5)==='group')
+        {
+            setIsGroup(true);
+            axios.post('/group/getname',{username:props.auth.user.username,groupId:roomId})
+            .then(response => {
+            console.log(response.data.group)
+            setUser2(response.data.group)
+            console.log("Done1")
+            })
+            console.log("Done2")
+            axios.post('/group/sync',{roomId:roomId})
+            .then(resposnse => {
+            setMessages(resposnse.data)
+            })
+        }
+        else
+        {
+            setIsGroup(false);
+            axios.post('/chat/getUser',{username:props.auth.user.username,chatId:roomId})
+            .then(response => {
+            console.log(response.data,response.data.friend)
+            setUser2(response.data.friend)
+            console.log("Done1")
+            })
+            console.log("Done2")
+            axios.post('/chat/sync',{roomId:roomId})
+            .then(resposnse => {
+            setMessages(resposnse.data)
+            })
+        }
+    },[roomId])
+
+    useEffect(() => {
+        const pusher = new Pusher('8a303e31b3106d3f9a47', {
+          cluster: 'ap2'
+        });
+    
+        const channel = pusher.subscribe(roomId.toLowerCase());
+        channel.bind('inserted', (newMessage) => {
+          // alert(JSON.stringify(newMessage));
+          setMessages([...messages, newMessage])
+        });
+    
+        return () => {
+          channel.unbind_all();
+          channel.unsubscribe();
+        };
+    
+      }, [messages])
+
+    // var d = new Date();
+    // d.setUTCHours(15);
+    // console.log(d)
+    {console.log(roomId,user2)}
     const sendMessage = async (e) => {
         e.preventDefault();
-        await axios.post('/messages/new',{
-            message: input,
-            name: 'Ammar',
-            timestamp: new Date().toUTCString(),
-            received: true,
-        });
+        console.log(roomId)
+        if(isGroup)
+        {
+            await axios.post('/group/messages/new',{
+                roomId: roomId,
+                message: input,
+                from: props.auth.user.username,
+                to: user2,
+                timestamp: new Date().toUTCString(),
+            });
+        }
+        else{
+            await axios.post('/messages/new',{
+                roomId: roomId,
+                message: input,
+                from: props.auth.user.username,
+                to: user2,
+                timestamp: new Date().toUTCString(),
+            });
+        }
         setInput("");
     };
-
-
 
     return (
         <div className="chat">
             <div className="chat_header">
                 <Avatar />
                 <div className="chat_headerInfo">
-                    <h3>Room name</h3>
+                    <h4>{user2}</h4>
                     <p>Last seen at...</p>
                 </div>
                 <div className="chat_headerRight">
@@ -50,8 +131,8 @@ function Chat({messages}) {
             </div>
             <div className="chat_body">
                 {messages.map(message => (
-                    <p className={`chat_message ${message.received && "chat_reciever"}`}>
-                    <span className="chat_name">{message.name}</span>
+                    <p key={message.id} className={`chat_message ${message.from===props.auth.user.username && "chat_reciever"}`}>
+                    <span className="chat_name">{message.from}</span>
                     {message.message}
                     <span className="chat_timestamp">
                         {message.timestamp}
