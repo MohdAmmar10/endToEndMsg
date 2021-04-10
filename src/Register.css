@@ -1,0 +1,63 @@
+.title
+{
+    color: #048998;
+    font-weight: bold;
+    font-size: 50px;
+    margin-top: 30px;
+}
+
+.register-left
+{
+    margin-top: 60px;
+    margin-bottom: 60px
+}
+
+.register-banner
+{
+    width: 550px;
+    height: 700px;
+}
+
+.register-right
+{
+    margin-top: 60px;
+    margin-bottom: 100px;
+}
+
+.register-label
+{
+    color: #048998;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.register-inputs
+{
+    margin: 25px 50px 0px 0px;
+}
+
+.register-user
+{
+    margin: 30px 50px 0px 0px;
+}
+
+.register-btn-container
+{
+    margin: 0px 50px 0px 0px;
+}
+
+.register-btn 
+{
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: large;
+    background-color: #048998;
+    /* min-width: auto !important; */
+    width: 100%;
+    /* width: max-content !important; */
+    height: 40px !important;
+    margin: 35px 50px 0px 0px;
+    /* padding: 6px 111px 15px 111px; */
+    border: 0;
+}

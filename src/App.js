@@ -62,14 +62,18 @@ function App() {
 
   // console.log(messages)
   return (
-    <div className="app">
-      <div className="app_body">
+    <div className="all">
+      
       <Provider store={store}>
         <Router>
           <Switch>
             <PrivateRoute path="/rooms/:roomId">
-              <Sidebar />
-              <Chat/>
+              <div className="app">
+                <div className="app_body">
+                  <Sidebar />
+                  <Chat/>
+                </div>
+              </div>
             </PrivateRoute>
             <Route exact path="/register">
               <Register/>
@@ -87,7 +91,7 @@ function App() {
           
         </Router>
         </Provider>
-      </div>
+      
     </div>
   );
 }

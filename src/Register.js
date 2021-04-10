@@ -4,6 +4,15 @@ import { connect } from "react-redux";
 import { registerUser } from "./actions/authActions";
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import RegisterBanner from './Assets/registerBanner.svg'
+import './Register.css'; 
 
 class Register extends Component {
   constructor() {
@@ -15,6 +24,8 @@ class Register extends Component {
       phno: "",
       password: "",
       password2: "",
+      showPassword: false,
+      showPassword2: false,
       errors: {}
     };
   }
@@ -27,6 +38,27 @@ class Register extends Component {
       });
     }
   }
+
+  handleClickShowPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
+  };
+
+  handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  handleClickShowPassword2 = () => {
+    this.setState({ showPassword2: !this.state.showPassword2 });
+  };
+
+  handleMouseDownPassword2 = (event) => {
+    event.preventDefault();
+  };
+// onChangeUser = e => {
+//     this.setState({ username: e.target.value });
+//   };
+//   onChangePass = e => {
+//     this.setState({ password: e.target.value });
+//   };
 
 onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -48,23 +80,23 @@ render() {
     const { errors } = this.state;
 return (
       <div className="container">
+        <div className="text-center">
+          <h1 className="title">CRYPTONO</h1>
+        </div>
         <div className="row">
-          <div className="col s8 offset-s2">
-            {/* <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link> */}
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Register</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Already have an account? <Link to="/login">Log in</Link>
-              </p>
+          <div className="col-12 col-md-8 register-left">
+            <img alt="Regsiter Banner" className="register-banner" src={RegisterBanner}></img>
+          </div>
+          <div className="col-12 col-md-4 register-right">
+            <h1 className="register-label">Register</h1>
+            <div>
+              <h6>
+                Already have an account? <Link className="link" to="/login">Login</Link>
+              </h6>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>  
-            <div className="input-field col s12">
-                <input
+            <form noValidate onSubmit={this.onSubmit}>    
+              <div className="register-inputs register-user">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.username}
                   error={errors.username}
@@ -75,10 +107,29 @@ return (
                   })}
                 />
                 <label htmlFor="username">Username</label>
-                <span className="red-text">{errors.username}</span>
+                <span>{errors.username}</span> */}
+                <InputLabel className="login-ip-label" htmlFor="username">Username</InputLabel>
+                <Input
+                  // id="standard-adornment-username"
+                  type='text'
+                  fullWidth={true}
+                  id="username"
+                  onChange={this.onChange}
+                  value={this.state.username}
+                  error={errors.username || errors.usernamenotfound}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.username || errors.usernamenotfound
+                  })}
+                  helperText={errors.username || errors.usernamenotfound }
+                />
+                <span className="login-error">
+                  {errors.username}
+                  {errors.usernamenotfound}
+                </span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div className="register-inputs">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.name}
                   error={errors.name}
@@ -89,10 +140,28 @@ return (
                   })}
                 />
                 <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
+                <span >{errors.name}</span> */}
+                <InputLabel className="login-ip-label" htmlFor="name">Name</InputLabel>
+                <Input
+                  // id="standard-adornment-name"
+                  type='text'
+                  id="name"
+                  fullWidth={true}
+                  onChange={this.onChange}
+                  value={this.state.name}
+                  error={errors.name}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.name
+                  })}
+                  helperText={errors.name}
+                />
+                <span className="login-error">
+                  {errors.name}
+                </span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div className="register-inputs">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.email}
                   error={errors.email}
@@ -103,10 +172,29 @@ return (
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
+                <span>{errors.email}</span> */}
+
+                <InputLabel className="login-ip-label" htmlFor="email">Email</InputLabel>
+                <Input
+                  // id="standard-adornment-email"
+                  type='email'
+                  id="email"
+                  fullWidth={true}
+                  onChange={this.onChange}
+                  value={this.state.email}
+                  error={errors.email}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.email
+                  })}
+                  helperText={errors.email}
+                />
+                <span className="login-error">
+                  {errors.email}
+                </span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div className="register-inputs">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.phno}
                   error={errors.phno}
@@ -117,10 +205,30 @@ return (
                   })}
                 />
                 <label htmlFor="phno">Phone Number</label>
-                <span className="red-text">{errors.phno}</span>
+                <span >{errors.phno}</span> */}
+                
+                <InputLabel className="login-ip-label" htmlFor="phno">Phone Number</InputLabel>
+                <Input
+                  // id="standard-adornment-no"
+                  type='number'
+                  id="phno"
+                  fullWidth={true}
+                  onChange={this.onChange}
+                  value={this.state.phno}
+                  error={errors.phno}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.phno
+                  })}
+                  helperText={errors.phno}
+                />
+                <span className="login-error">
+                  {errors.phno}
+                </span>
+
               </div>
-              <div className="input-field col s12">
-                <input
+              <div className="register-inputs">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.password}
                   error={errors.password}
@@ -131,10 +239,39 @@ return (
                   })}
                 />
                 <label htmlFor="password">Password</label>
-                <span className="red-text">{errors.password}</span>
+                <span>{errors.password}</span> */}
+
+                <InputLabel className="login-ip-label" htmlFor="password">Password</InputLabel>
+                <Input
+                  id="password"
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  onChange={this.onChange}
+                  value={this.state.password}
+                  error={errors.password }
+                  fullWidth={true}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.password
+                  })}
+                  helperText={errors.password}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                      >
+                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  />
+                <span className="login-error">
+                  {errors.password}
+                </span>
               </div>
-              <div className="input-field col s12">
-                <input
+              <div className="register-inputs">
+                {/* <input
                   onChange={this.onChange}
                   value={this.state.password2}
                   error={errors.password2}
@@ -145,20 +282,44 @@ return (
                   })}
                 />
                 <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
+                <span>{errors.password2}</span> */}
+
+                <InputLabel className="login-ip-label" htmlFor="standard-adornment-password2">Confirm Password</InputLabel>
+                <Input
+                  // id="standard-adornment-password"
+                  id="password2"
+                  type={this.state.showPassword2 ? 'text' : 'password'}
+                  onChange={this.onChange}
+                  value={this.state.password2}
+                  error={errors.password2 }
+                  fullWidth={true}
+                  style={{fontSize:18}}
+                  className={classnames("", {
+                    invalid: errors.password2
+                  })}
+                  helperText={errors.password2}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword2}
+                        onMouseDown={this.handleMouseDownPassword2}
+                      >
+                        {this.state.showPassword2 ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  />
+                <span className="login-error">
+                  {errors.password2}
+                </span>
               </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <div className="register-btn-container">
                 <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
+                  className="register-btn"
                   type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
-                  Sign up
+                  Register
                 </button>
               </div>
             </form>

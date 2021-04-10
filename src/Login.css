@@ -1,0 +1,82 @@
+.fulls
+{
+    background-color: white;
+}
+
+.login-left
+{
+    padding: 47px 0px 0px 0px;
+}
+
+.login-right
+{
+    padding: 60px 0px 0px 0px;
+}
+
+.login-banner
+{
+    height: 390px;
+    width: 535px;
+}
+
+.login-label
+{
+    color: #048998;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.title
+{
+    color: #048998;
+    font-weight: bold;
+    font-size: 50px;
+    margin-top: 30px;
+}
+
+.link
+{
+    color: #048998;
+}
+
+.login-inputs
+{
+    margin: 30px 50px 0px 0px;
+}
+
+.login-user
+{
+    margin-top: 30px;
+}
+
+.login-ip-label
+{
+    margin-bottom: 10px;
+}
+
+.login-btn-container
+{
+    margin: 0px 50px 0px 0px;
+}
+
+.login-btn 
+{
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: large;
+    background-color: #048998;
+    /* min-width: auto !important; */
+    width: 100%;
+    /* width: max-content !important; */
+    height: 40px !important;
+    margin: 45px 50px 0px 0px;
+    /* padding: 6px 111px 15px 111px; */
+    border: 0;
+}
+
+.login-error
+{
+    color: red;
+    font-size: small;
+}
