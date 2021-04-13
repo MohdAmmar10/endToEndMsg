@@ -9,6 +9,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "./actions/authActions";
 import Pusher from 'pusher-js'
+import WelcomeBanner from './Assets/Welcome.jpeg'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 
 function Chat(props) {
 
@@ -17,7 +20,7 @@ function Chat(props) {
     const [user2, setUser2] = useState("Loading...");
     const [messages,setMessages] = useState([]);
     const [isGroup,setIsGroup] = useState(false);
-  
+    const [emojiKey, setEmojiKey] = useState(false);
 
 //   useEffect( () => {
 //     console.log(roomId)
@@ -109,69 +112,82 @@ function Chat(props) {
         setInput("");
     };
 
+    function toggleEmoji()
+    {
+        setEmojiKey(!emojiKey)
+    }
+
     return (
         <div className="chat">
-            <div className="chat_header">
-                <Avatar />
-                <div className="chat_headerInfo">
-                    <h4>{user2}</h4>
-                    <p>Last seen at...</p>
+            {roomId==='welcome'?<div className="inner_welcome_chat"><img src={WelcomeBanner} className='chat_welcome_img' alt='WELCOME TO CRYPTONO'></img></div>:
+                <div className="inner_chat">
+                    <div className="chat_header">
+                        <Avatar />
+                        <div className="chat_headerInfo">
+                            <h4 className="mb-0 mt-1">{user2}</h4>
+                            {/* <p>Last seen at...</p> */}
+                        </div>
+                        {/* <div className="chat_headerRight">
+                            <IconButton>
+                                <SearchOutlined />
+                            </IconButton>
+                            <IconButton>
+                                <AttachFile />
+                            </IconButton>
+                            <IconButton>
+                                <MoreVert />
+                            </IconButton>
+                        </div> */}
+                    </div>
+                    <div className="chat_body">
+                        {messages.map(message => (
+                            <p key={message.id} className={`chat_message ${message.from===props.auth.user.username && "chat_reciever"}`}>
+                            <span className="chat_name">{message.from}</span>
+                            {message.message}
+                            <span className="chat_timestamp">
+                                {message.timestamp}
+                            </span>    
+                        </p>
+                        ))}
+                    {/*                 
+                        <p className="chat_message chat_reciever">
+                            <span className="chat_name">Ammar</span>
+                            This is a message
+                            <span className="chat_timestamp">
+                                {new Date().toUTCString()}    
+                            </span>    
+                        </p>
+                        <p className="chat_message">
+                            <span className="chat_name">Ammar</span>
+                            This is a message
+                            <span className="chat_timestamp">
+                                {new Date().toUTCString()}    
+                            </span>    
+                        </p> */}
+                    </div>
+                    <span className="chat-emoji">
+                        {emojiKey && <Picker onSelect={(e) => setInput(input+e.native)} /> }
+                    </span>
+                    <div className="chat_footer">
+                        <InsertEmoticon onClick={toggleEmoji} />
+                        <form>
+                            <input 
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder="Type a message"
+                                className="message_input"
+                                type="text"
+                            />
+                            <button 
+                                onClick={sendMessage}
+                                type="submit">
+                                    Send a message
+                            </button>
+                        </form>
+                        {/* <MicIcon/> */}
+                    </div>
                 </div>
-                <div className="chat_headerRight">
-                    <IconButton>
-                        <SearchOutlined />
-                    </IconButton>
-                    <IconButton>
-                        <AttachFile />
-                    </IconButton>
-                    <IconButton>
-                        <MoreVert />
-                    </IconButton>
-                </div>
-            </div>
-            <div className="chat_body">
-                {messages.map(message => (
-                    <p key={message.id} className={`chat_message ${message.from===props.auth.user.username && "chat_reciever"}`}>
-                    <span className="chat_name">{message.from}</span>
-                    {message.message}
-                    <span className="chat_timestamp">
-                        {message.timestamp}
-                    </span>    
-                </p>
-                ))}
-{/*                 
-                <p className="chat_message chat_reciever">
-                    <span className="chat_name">Ammar</span>
-                    This is a message
-                    <span className="chat_timestamp">
-                        {new Date().toUTCString()}    
-                    </span>    
-                </p>
-                <p className="chat_message">
-                    <span className="chat_name">Ammar</span>
-                    This is a message
-                    <span className="chat_timestamp">
-                        {new Date().toUTCString()}    
-                    </span>    
-                </p> */}
-            </div>
-            <div className="chat_footer">
-                <InsertEmoticon />
-                <form>
-                    <input 
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Type a message"
-                        type="text"
-                    />
-                    <button 
-                    onClick={sendMessage}
-                     type="submit">
-                        Send a message
-                    </button>
-                </form>
-                <MicIcon/>
-            </div>
+            }
         </div>
     )
 }

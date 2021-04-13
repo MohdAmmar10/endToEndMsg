@@ -10,8 +10,8 @@ function SidebarChat({name,chatID}) {
             <div className="sidebarChat">
                 <Avatar src=""/>
                 <div className="sidebarChat_info">
-                    <h2>{name}</h2>
-                    <p>last message</p>
+                    <p>{name}</p>
+                    {/* <p>last message</p> */}
                 </div>
             </div>
         </Link>

@@ -13,18 +13,14 @@ import { logoutUser } from "./actions/authActions";
 import SendIcon from '@material-ui/icons/Send';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-  
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import CloseIcon from '@material-ui/icons/Close';
 
 function Sidebar(props) {
-
-
-    function rand() {
-        return Math.round(Math.random() * 20) - 10;
-      }
       
       function getModalStyle() {
-        const top = 50 + rand();
-        const left = 50 + rand();
+        const top = 30;
+        const left = 45;
       
         return {
           top: `${top}%`,
@@ -36,11 +32,11 @@ function Sidebar(props) {
       const useStyles = makeStyles((theme) => ({
         paper: {
           position: 'absolute',
-          width: 600,
+          width: 450,
           backgroundColor: theme.palette.background.paper,
-          border: '2px solid #000',
+        //   border: '1px solid #000',
           boxShadow: theme.shadows[5],
-          padding: theme.spacing(2, 4, 3),
+          padding: theme.spacing(3, 4, 4),
         },
       }));
 
@@ -55,6 +51,7 @@ function Sidebar(props) {
     const [users,setUsers] = useState([]);
     const [user,setUser] = useState("");
     const [error,setError] = useState("");
+    const [ferror,setFError] = useState("");
     
     const classes = useStyles();
 
@@ -90,7 +87,7 @@ function Sidebar(props) {
         console.log(users,group,props.auth.user.username)
         if(users.length===0)
         {
-            setError("Please add users");
+            setError("Please Add Users");
         }
         else if(group!="")
         {
@@ -99,8 +96,17 @@ function Sidebar(props) {
                 users: users,
                 groupname:group
             })
-            .then(resposnse => {
-                console.log(resposnse.data)
+            .then(response => {
+                console.log(response.data)
+                console.log("GROUPID:",response.data.groupId)
+                
+                axios.post('/messages/group/delete',{
+                    username: props.auth.user.username,
+                    groupName: response.data.groupId
+                })
+                .then(res => {
+                    console.log(res.data)
+                })
                 setCheck("Fd")
                 setGroup("")
                 setOpen(false)
@@ -108,7 +114,7 @@ function Sidebar(props) {
         }
         else
         {
-            setError("Please enter groupname");
+            setError("Please enter Group Name");
         }
 
 
@@ -116,7 +122,8 @@ function Sidebar(props) {
 
     const sendFriend = async (e) => {
         e.preventDefault();
-
+        if(friend!=props.auth.user.username)
+        {
         // console.log(roomId)
         // var rstr = JSON.stringify(roomId)
         // console.log(rstr)
@@ -153,22 +160,35 @@ function Sidebar(props) {
                         })
                         .then(resposnse => {
                             console.log(resposnse.data)
+                            axios.post('/messages/delete',{
+                                username: props.auth.user.username,
+                                username2: friend
+                            })
+                            .then(res => {
+                                console.log(res.data)
+                            })
                             setCheck("Fd")
                             // setCheck(resposnse.data.friend)
                             
                         });
                     }
                     else{
+                        setFError("User does not exist")
                         console.log("User not exist")
                     }
         
                 });
             }
             else{
+                setFError("User is already added as a friend")
                 console.log("User is already friend")
             }
 
         });
+    }
+    else{
+        setFError("Cannot add self as friend")
+    }
         
         setFriend("");
     };
@@ -178,12 +198,12 @@ function Sidebar(props) {
         setError("");
         if(users.includes(user))
         {
-            setError("User already added");
+            setError("User already added to the group");
             setUser("");
         }
         else if(user === props.auth.user.username)
         {
-            setError("You are already added");
+            setError("You are already added in group");
             setUser("");
         }
         else
@@ -222,14 +242,14 @@ function Sidebar(props) {
         <div className="sidebar">
             <div className="sidebar_header">
                 {console.log(chats)}
-                <Avatar /> <h6>{props.auth.user.username}</h6>
+                <Avatar /> <h4 className="ml-4 mt-2 sidebar_header_username">{props.auth.user.username}</h4>
                 <div className="sidebar_headerRight">
-                    <IconButton>
+                    {/* <IconButton>
                         <DonutLargeIcon />
                     </IconButton>
                     <IconButton>
                         <ChatIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton>
                         <GroupAddIcon onClick={handleOpen}/>
                     </IconButton>
@@ -242,48 +262,63 @@ function Sidebar(props) {
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-            <div  style={modalStyle} className={classes.paper} >
-            <form>
-                    <input placeholder="Enter Group Name"
-                    value={group}
-                    onChange={(e) => setGroup(e.target.value)}
-                    type="text" />
-                    <div className="sidebar_searchContainer">
-                        {error}
-                    <SearchOutlined />
-                    <input placeholder="Enter username"
-                    value={user}
-                    onChange={(e) => setUser(e.target.value)}
-                    type="text" />
-                    <button 
-                    onClick={addUser}
-                     type="submit">
-                    <SendIcon/>
-                    </button>
-
-                    <button 
-                    onClick={createGroup}
-                     type="submit">
-                         Create Group
-                    </button>
+                <div  style={modalStyle} className={classes.paper} >
+                    <form className="create-modal">
+                        <div className="modal-head">
+                            <h4>Create New Group</h4>
+                            <CloseIcon onClick={handleClose}/>
+                        </div>
+                        <div className="modal_searchContainer">
+                            <PeopleOutlineIcon />
+                            <input 
+                                placeholder="Enter Group Name"
+                                value={group}
+                                onChange={(e) => setGroup(e.target.value)}
+                                type="text" />
+                        </div>
+                        <div className="modal-add">
+                            <div className="modal_searchContainer">
+                                <SearchOutlined />
+                                <input 
+                                    placeholder="Enter Username"
+                                    value={user}
+                                    onChange={(e) => setUser(e.target.value)}
+                                    type="text" />
+                            </div>
+                            <button 
+                                onClick={addUser}
+                                className="modal-add-btn"
+                                type="submit">
+                                <SendIcon/>
+                            </button>
+                        </div>
+                        <span className="login-error modal-error">{error}</span>
+                        <button 
+                            onClick={createGroup}
+                            className="modal-create-btn"
+                            type="submit">
+                                Create Group
+                        </button>
+                    </form>
                 </div>
-            </form>
-            </div>
             </Modal>
-
             <div className="sidebar_search">
                 <div className="sidebar_searchContainer">
                     <SearchOutlined />
                     <input placeholder="Start new chat"
                     value={friend}
                     onChange={(e) => setFriend(e.target.value)}
-                    type="text" />
+                    type="text" 
+                    className="search_friend_input"
+                    />
                     <button 
+                    className="send_button"
                     onClick={sendFriend}
                      type="submit">
                     <SendIcon/>
                     </button>
                 </div>
+                <span className="text-center ml-5 pl-5 login-error">{ferror}</span>
             </div>
             <div className="sidebar_chats">
                 {chats.map((chat)=>(

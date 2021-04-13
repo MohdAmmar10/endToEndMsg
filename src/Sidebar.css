@@ -6,16 +6,17 @@
 
 .sidebar_header {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    /* justify-content: space-between; */
+    padding: 20px 20px 10px 20px;
+    background-color: #AFCFD2 !important;
     border-right: 1px solid lightgray;
 }
 
 .sidebar_headerRight {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    min-width: 10vw;
+    justify-content: flex-end;
+    /* min-width: 10vw; */
 }
 
 .sidebar_headerRight > .MuiSvgIcon-root {
@@ -23,12 +24,26 @@
     font-size: 24px !important;
 }
 
+a {
+    text-decoration: none !important;
+    color: black;
+}
+
+.sidebar_header_username {
+    margin-left: 20px;
+    margin-right: auto;
+}
+
 .sidebar_search {
     display: flex;
-    align-items: center;
-    background-color: #f6f6f6;
-    height: 39px;
-    padding: 10px;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    background-color: #AFCFD2 !important;
+    /* height: 39px; */
+    padding: 0px 10px 10px 10px;
+    border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 }
 
 .sidebar_searchContainer {
@@ -42,7 +57,8 @@
 
 .sidebar_searchContainer > .MuiSvgIcon-root {
     color: gray;
-    padding: 10px;
+    /* padding: 10px; */
+    margin-left: 15px;
 }
 
 .sidebar_searchContainer > input {
@@ -54,5 +70,86 @@
 .sidebar_chats {
     flex: 1;
     background-color: white;
-    overflow: scroll;
+    overflow: auto;
+    border-right: 1px solid lightgray;
+}
+
+.search_friend_input {
+    margin-right: auto;
+}
+
+.send_button {
+    background-color: white;
+    color: #696969;
+    border: 0px;
+    margin-right: 10px;
+}
+
+.create-modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal_searchContainer {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    margin-right: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.modal_searchContainer > .MuiSvgIcon-root {
+    color: gray;
+    /* padding: 10px; */
+    margin-left: 15px;
+}
+
+.modal_searchContainer > input {
+    border: none;
+    width: inherit;
+    padding-right: 10px;
+    outline-width: 0;
+    margin-left: 10px;
+}
+
+.modal-add {
+    display: flex;
+    align-items: flex-end;
+}
+
+.modal-add-btn {
+    height: fit-content;
+    background-color: #048998;
+    color: white;
+    border: 0px;
+    outline: none;
+    margin-bottom: 3px;
+    border-radius: 5px;
+}
+
+.modal-create-btn {
+    background-color: #048998;
+    color: white;
+    border: 0px;
+    outline: none;
+    height: 30px;
+    /* margin-bottom: px; */
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.modal-error {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
 }
