@@ -15,6 +15,8 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import CloseIcon from '@material-ui/icons/Close';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useHistory } from "react-router-dom";
 
 function Sidebar(props) {
       
@@ -40,7 +42,7 @@ function Sidebar(props) {
         },
       }));
 
-
+    const history = useHistory();
     const [chats,setChats] = useState([]);
     const [friend, setFriend] = useState("");
     const [check, setCheck] = useState("");
@@ -56,7 +58,7 @@ function Sidebar(props) {
     const classes = useStyles();
 
     
-    {console.log(props)}
+    {console.log("PROPS",props)}
 
     useEffect(() => {
         axios.post('/chat/all',{username:props.auth.user.username})
@@ -81,6 +83,12 @@ function Sidebar(props) {
       for(let i of chats){
         console.log(Object.keys(i),i[Object.keys(i)])
     }
+
+    const onLogoutClick = e => {
+        e.preventDefault();
+        props.logoutUser();
+        history.push("/login");
+      };
 
     const createGroup = async (e) => {
         e.preventDefault();
@@ -250,8 +258,12 @@ function Sidebar(props) {
                     <IconButton>
                         <ChatIcon />
                     </IconButton> */}
+                    
                     <IconButton>
                         <GroupAddIcon onClick={handleOpen}/>
+                    </IconButton>
+                    <IconButton>
+                        <ExitToAppIcon onClick = {onLogoutClick} />
                     </IconButton>
                 </div>
             </div>

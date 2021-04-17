@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import "./Chat.css";
 import { IconButton,Avatar } from '@material-ui/core';
 import { SearchOutlined, AttachFile, MoreVert, InsertEmoticon } from '@material-ui/icons';
@@ -14,6 +14,14 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 
 function Chat(props) {
+
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        if(messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+        }
+    }
 
     const { roomId } = useParams();
     const [input, setInput] = useState("");
@@ -83,6 +91,10 @@ function Chat(props) {
     
       }, [messages])
 
+      useEffect(() => {
+        scrollToBottom()
+      }, [messages]);
+
     // var d = new Date();
     // d.setUTCHours(15);
     // console.log(d)
@@ -149,6 +161,7 @@ function Chat(props) {
                             </span>    
                         </p>
                         ))}
+                        <div ref={messagesEndRef} />
                     {/*                 
                         <p className="chat_message chat_reciever">
                             <span className="chat_name">Ammar</span>
