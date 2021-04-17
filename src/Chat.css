@@ -82,11 +82,14 @@
     top: -15px;
     font-weight: 800;
     font-size: xx-small;
+    color: black !important;
 }
 
 .chat_reciever {
     margin-left: auto;
-    background-color: #dcf8c6;
+    background-color: #66bfbe !important;
+    color: white ;
+    /* #dcf8c6; */
 }
 
 .chat_footer {

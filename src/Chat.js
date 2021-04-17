@@ -81,9 +81,22 @@ function Chat(props) {
         const channel = pusher.subscribe(roomId.toLowerCase());
         channel.bind('inserted', (newMessage) => {
           // alert(JSON.stringify(newMessage));
-          setMessages([...messages, newMessage])
+        //   setMessages([...messages, newMessage])
+        if(isGroup)
+        {
+            axios.post('/group/sync',{roomId:roomId})
+            .then(resposnse => {
+            setMessages(resposnse.data)
+            })
+        }
+        else
+        {
+            axios.post('/chat/sync',{roomId:roomId})
+            .then(resposnse => {
+            setMessages(resposnse.data)
+            }) 
+        }
         });
-    
         return () => {
           channel.unbind_all();
           channel.unsubscribe();

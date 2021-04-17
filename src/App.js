@@ -3,6 +3,7 @@ import './App.css';
 import Sidebar from "./Sidebar";
 import Chat from "./Chat";
 import Register from "./Register";
+import Landing from "./Landing";
 import Login from "./Login";
 import Home from "./Home";
 import axios from './axios'
@@ -67,6 +68,15 @@ function App() {
       <Provider store={store}>
         <Router>
           <Switch>
+          <Route exact path="/">
+            <Landing/>
+          </Route>
+          <Route exact path="/register">
+              <Register/>
+            </Route>
+            <Route exact path="/login">
+              <Login/>
+            </Route>
             <PrivateRoute path="/rooms/:roomId">
               <div className="app">
                 <div className="app_body">
@@ -75,19 +85,15 @@ function App() {
                 </div>
               </div>
             </PrivateRoute>
-            <Route exact path="/register">
-              <Register/>
-            </Route>
-            <Route exact path="/login">
-              <Login/>
-            </Route>
+          </Switch>
+          
+           
             <Switch>
               <PrivateRoute exact path="/home" component={Home} />
             </Switch>
             
-            <Route path="/">
-            </Route>
-          </Switch>
+            
+          
           
         </Router>
         </Provider>

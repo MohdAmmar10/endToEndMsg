@@ -1,0 +1,62 @@
+
+header,
+#intro {
+	height: 100%;
+}
+
+#intro {
+	background: url('./Assets/banner1.jpg')no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.top-nav-collapse {
+	background-color: #24355C;
+  }
+
+.navbar {
+    background-color: #24355C;
+}
+
+.logo-img {
+    width: 40px !important;
+    margin-right: 10px !important;
+}
+
+.h-buttons {
+    margin-left: auto !important;
+}
+.main-title {
+    color: white; 
+    padding-top: 14rem;
+    padding-bottom: 14rem;
+}
+
+.main-head-title {
+    font-weight: 500;
+}
+
+.btn-log,.btn-sign {
+    color: white;
+    background-color: #70a6b5;
+}
+
+.about-desc {
+    align-content: center;
+}
+/* @media (max-width: 768px) 
+{
+	.navbar:not(.top-nav-collapse) 
+	{
+		background-color: #24355C;
+	}
+  }
+@media (min-width: 800px) and (max-width: 850px) 
+{
+	.navbar:not(.top-nav-collapse) 
+	{
+		background-color: #24355C;
+	}
+  } */
