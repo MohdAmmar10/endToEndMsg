@@ -39,7 +39,7 @@ function Landing(props) {
                                     <Link to="/login" className="nav-link"><button type="button" className="btn btn-log">Login</button></Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/register" className="nav-link"><button type="button" className="btn btn-sign">Sign Up</button></Link>
+                                    <Link to="/register" className="nav-link"><button type="button" className="btn btn-sign">Register</button></Link>
                                 </li>
                             </ul>
                         </div>
@@ -103,7 +103,7 @@ function Landing(props) {
                         <h2 className="mb-3 font-weight-bold text-center">About Us</h2>
                         <div className="row text-center">
                             <div className="col-md-12 about-desc" >
-                                <h3 className="mb-3"><strong>Cryptono</strong></h3>
+                                <h3 className="mb-3">Cryptono</h3>
                                 <p>This web application was first created by the students of K.J. Somaiya College of Engineering as part of a mini project under the guidance of faculty of IT Department in the academic year 2020-2021.</p>
 
                                 <p>We at Cryptono promote and empower safe and secure communication for all our users and stand by the ideaology that our user's privacy is of utmost importance and our prime goal.</p>
